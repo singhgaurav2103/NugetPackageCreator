@@ -173,7 +173,6 @@
     <Content Include="Readme.txt" />
     <None Include="App.config" />
     <None Include="diagram.puml" />
-    <None Include="NugetPackageCreator_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
