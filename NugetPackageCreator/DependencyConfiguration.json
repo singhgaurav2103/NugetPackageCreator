@@ -1,0 +1,480 @@
+{
+  "CurrentVersion": "16.0.0",
+  "NugetSourceAlreadyExists": true,
+  "UseForceSymbols": true,
+  "DependencyConfiguration": [
+    {
+      "TrailingPath": "iqas-core\\src\\IQAS.Core.CloudComponents\\IQAS.Core.CloudComponents.csproj",
+      "CreatePackage": true,
+      "ID": "IQAS.Core.CloudComponents",
+      "DependentPackageIDs": [],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": true
+    },
+    {
+      "TrailingPath": "iqas-core\\src\\IQAS.Core.Model\\IQAS.Core.Model.csproj",
+      "CreatePackage": true,
+      "ID": "IQAS.Core.Model",
+      "DependentPackageIDs": [],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": true
+    },
+    {
+      "TrailingPath": "iqas-core\\src\\IQAS.Core.Repository\\IQAS.Core.Repository.csproj",
+      "CreatePackage": true,
+      "ID": "IQAS.Core.Repository",
+      "DependentPackageIDs": [],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": true
+    },
+    {
+      "TrailingPath": "iqas-core\\src\\IQAS.Core.SharedUtilities\\IQAS.Core.SharedUtilities.csproj",
+      "CreatePackage": true,
+      "ID": "IQAS.Core.SharedUtilities",
+      "DependentPackageIDs": [],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": true
+    },
+    {
+      "TrailingPath": "iqas-core\\src\\Tests\\Tests.csproj",
+      "CreatePackage": false,
+      "ID": "Tests",
+      "DependentPackageIDs": [],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": true
+    },
+    {
+      "TrailingPath": "iqas-scan-engine\\src\\IQAS.Engine\\IQAS.Engine.csproj",
+      "CreatePackage": true,
+      "ID": "IQAS.Engine",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": true
+    },
+    {
+      "TrailingPath": "iqas-scan-engine\\src\\IQAS.Engine.SimilarityAlgorithms\\IQAS.Engine.SimilarityAlgorithms.csproj",
+      "CreatePackage": true,
+      "ID": "IQAS.Engine.SimilarityAlgorithms",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": true
+    },
+    {
+      "TrailingPath": "iqas-scan-engine\\src\\IQAS.Engine.UnitTests\\IQAS.Engine.UnitTests.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Engine.UnitTests",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.DevOps\\IQAS.DevOps.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.DevOps",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Scanner.Report": true },
+        { "IQAS.Scanner.ScanListSourceCollection": true }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Tests.PerformanceTests\\IQAS.Tests.PerformanceTests.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Tests.PerformanceTests",
+      "DependentPackageIDs": [
+        { "IQAS.Engine": true }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.EntityExtractionWorker\\IQAS.EntityExtractionWorker.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.EntityExtractionWorker",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Engine": true }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": true,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Scanner.Consumer.WindowService\\IQAS.Scanner.Consumer.WindowService.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Scanner.Consumer.WindowService",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Engine": true },
+        { "IQAS.Scanner.Core.WindowService": false },
+        { "IQAS.Scanner.Util": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": true,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Scanner.Core.WindowService\\IQAS.Scanner.Core.WindowService.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Scanner.Core.WindowService",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": true,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Scanner.FileProcessor\\IQAS.Scanner.FileProcessor.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Scanner.FileProcessor",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Scanner.SharedRequestProduction": false },
+        { "IQAS.Scanner.Util": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Scanner.MaintenanceWorker.WindowService\\IQAS.Scanner.MaintenanceWorker.WindowService.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Scanner.MaintenanceWorker.WindowService",
+      "DependentPackageIDs": [
+        { "IQAS.Scanner.Core.WindowService": false },
+        { "IQAS.Scanner.Util": false }
+      ],
+
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Scanner.Report\\IQAS.Scanner.Report.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Scanner.Report",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Scanner.Util": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": true,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Scanner.Reporter.WindowService\\IQAS.Scanner.Reporter.WindowService.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Scanner.Reporter.WindowService",
+      "DependentPackageIDs": [
+        { "IQAS.Scanner.Core.WindowService": false },
+        { "IQAS.Scanner.Report": false }
+      ],
+
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": true,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Scanner.UnitTests\\IQAS.Scanner.UnitTests.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Scanner.UnitTests",
+      "DependentPackageIDs": [
+        { "IQAS.Engine": true },
+        { "IQAS.DevOps": false },
+        { "IQAS.Scanner.Consumer.WindowService": false },
+        { "IQAS.Scanner.FileProcessor": false },
+        { "IQAS.Scanner.MaintenanceWorker.WindowService": false },
+        { "IQAS.Scanner.Report": false },
+        { "IQAS.Scanner.Reporter.WindowService": false },
+        { "IQAS.Scanner.ScanListSourceCollection": false },
+        { "IQAS.Scanner.Util": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": true,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Scanner.ScanListSourceCollection\\IQAS.Scanner.ScanListSourceCollection.csproj",
+      "CreatePackage": true,
+      "ID": "IQAS.Scanner.ScanListSourceCollection",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Core.Model": true },
+        { "IQAS.Scanner.Util": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": true
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Scanner.SharedRequestProduction\\IQAS.Scanner.SharedRequestProduction.csproj",
+      "CreatePackage": true,
+      "ID": "IQAS.Scanner.SharedRequestProduction",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Scanner.ScanListSourceCollection": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": true
+    },
+    {
+      "TrailingPath": "iqas-scanner\\src\\IQAS.Scanner.Util\\IQAS.Scanner.Util.csproj",
+      "CreatePackage": true,
+      "ID": "IQAS.Scanner.Util",
+      "DependentPackageIDs": [
+        { "IQAS.Engine": true }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": true
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\RedFlg99NetCore\\RedFlg99NetCore.csproj",
+      "CreatePackage": false,
+      "ID": "WebSvcImpact",
+      "DependentPackageIDs": [],
+      "AddDependentNugetPackage": false,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\CustomWebService\\WebSvcImpact\\WebSvcImpact.csproj",
+      "CreatePackage": false,
+      "ID": "WebSvcImpact",
+      "DependentPackageIDs": [
+        { "IQAS.Scanner.Report": true },
+        { "IQAS.Scanner.Util": true },
+        { "IQAS.Core.SharedUtilities": true },
+        { "AutoScanLib": false },
+        { "IQAS.WebSvc.Core": false },
+        { "IQAS.EvsConnector": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\AutoScan3\\AutoScanLib\\AutoScanLib.csproj",
+      "CreatePackage": false,
+      "ID": "AutoScanLib",
+      "DependentPackageIDs": [
+        { "IQAS.Core.Model": true },
+        { "IQAS.Core.Repository": true },
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Engine": true },
+        { "IQAS.Scanner.SharedRequestProduction": true },
+        { "IQAS.Engine.SimilarityAlgorithms": true },
+        { "IQAS.Scanner.Report": true },
+        { "MongoProviders": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\IQAS.EvsConnector\\IQAS.EvsConnector.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.EvsConnector",
+      "DependentPackageIDs": [
+        { "IQAS.Core.Model": true },
+        { "IQAS.Core.Repository": true },
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Scanner.Report": true },
+        { "AutoScanLib": false },
+        { "IQAS.WebSvc.Core": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\IQAS.NominoConnector\\IQAS.NominoConnector.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.NominoConnector",
+      "DependentPackageIDs": [
+        { "IQAS.Core.Model": true },
+        { "IQAS.Core.Repository": true },
+        { "IQAS.Core.SharedUtilities": true }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\IQAS.Web.SingleSignOn\\IQAS.Web.SingleSignOn.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Web.SingleSignOn",
+      "DependentPackageIDs": [],
+
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\IQAS.Web.SingleSignOnTests\\IQAS.Web.SingleSignOnTests.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.Web.SingleSignOnTests",
+      "DependentPackageIDs": [],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\IQAS.WebSvcUtils\\IQAS.WebSvc.Core.csproj",
+      "CreatePackage": false,
+      "ID": "IQAS.WebSvc.Core",
+      "DependentPackageIDs": [
+        { "IQAS.Core.Model": true },
+        { "IQAS.Core.Repository": true },
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Engine": true },
+        { "IQAS.Scanner.SharedRequestProduction": true },
+        { "IQAS.Scanner.Util": true },
+        { "IQAS.Engine.SimilarityAlgorithms": true },
+        { "IQAS.Scanner.Report": true },
+        { "AutoScanLib": false },
+        { "MongoProviders": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\IQAutoScan3\\IQAutoScan3.csproj",
+      "CreatePackage": false,
+      "ID": "IQAutoScan3",
+      "DependentPackageIDs": [
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Engine": true },
+        { "IQAS.Scanner.SharedRequestProduction": true },
+        { "IQAS.Scanner.Util": true },
+        { "IQAS.Scanner.Report": true },
+        { "IQAS.EvsConnector": false },
+        { "IQAS.NominoConnector": false },
+        { "IQAS.WebSvc.Core": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": true,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\IQAutoScan3.Tests\\IQAutoScan3.Tests.csproj",
+      "CreatePackage": false,
+      "ID": "IQAutoScan3.Tests",
+      "DependentPackageIDs": [
+        { "IQAS.Core.Model": true },
+        { "IQAS.Core.Repository": true },
+        { "IQAS.Core.SharedUtilities": true },
+        { "IQAS.Engine": true },
+        { "IQAS.Scanner.Util": true },
+        { "IQAS.Engine.SimilarityAlgorithms": true },
+        { "AutoScanLib": false },
+        { "IQAS.WebSvc.Core": false },
+        { "IQAutoScan3": false },
+        { "MongoProviders": false }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": true,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\MongoProviders\\MongoProviders.csproj",
+      "CreatePackage": false,
+      "ID": "MongoProviders",
+      "DependentPackageIDs": [
+        { "IQAS.Core.Model": true },
+        { "IQAS.Core.Repository": true }
+      ],
+      "AddDependentNugetPackage": true,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    },
+    {
+      "TrailingPath": "iqas-iqautoscan3\\WebSvcNominoData\\WebSvcNominoData.csproj",
+      "CreatePackage": false,
+      "ID": "WebSvcNominoData",
+      "DependentPackageIDs": [],
+      "AddDependentNugetPackage": false,
+      "SolutionTrailingPath": "iqas-iqautoscan3\\IQAutoScan3.sln",
+      "AddSymbolsScriptToProject": false,
+      "CreatePdbFile": false
+    }
+
+  ],
+  "IgnoreAddingPackageToSolution": [
+    { "iqas-core\\src\\IQAS.Core.sln": false },
+    { "iqas-scan-engine\\src\\IQAS.Engine.sln": false },
+    { "iqas-scanner\\src\\IQAS.Scanner.sln": false },
+    { "iqas-iqautoscan3\\IQAutoScan3.sln": false }
+  ],
+  "IgnoreCreatingPackageToSolution": [
+    { "iqas-core\\src\\IQAS.Core.sln": false },
+    { "iqas-scan-engine\\src\\IQAS.Engine.sln": false },
+    { "iqas-scanner\\src\\IQAS.Scanner.sln": false },
+    { "iqas-iqautoscan3\\IQAutoScan3.sln": false }
+  ],
+  "ReStoreSolution": [
+    { "iqas-core\\src\\IQAS.Core.sln": false },
+    { "iqas-scan-engine\\src\\IQAS.Engine.sln": false },
+    { "iqas-scanner\\src\\IQAS.Scanner.sln": true },
+    { "iqas-iqautoscan3\\IQAutoScan3.sln": true }
+  ],
+  "RebuildSolution": [
+    { "iqas-core\\src\\IQAS.Core.sln": false },
+    { "iqas-scan-engine\\src\\IQAS.Engine.sln": false },
+    { "iqas-scanner\\src\\IQAS.Scanner.sln": false },
+    { "iqas-iqautoscan3\\IQAutoScan3.sln": false }
+  ]
+}
