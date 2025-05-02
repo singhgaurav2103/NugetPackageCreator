@@ -1,4 +1,4 @@
-﻿using IQAS.Core.SharedUtilities.Utility;
+﻿
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace NugetPackageCreatorTool
         static string CurrentlatestUniqueVersion;
         static void Main(string[] args)
         {
-
+            Console.WriteLine($"Started At -{DateTime.Now}");
             CurrentlatestUniqueVersion = DateTime.Now.ToString("yyyyMMddTHHmmssfff");
             var configurationFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DependencyConfiguration.json");
             string jsonContent = File.ReadAllText(configurationFilePath);
@@ -203,7 +203,7 @@ namespace NugetPackageCreatorTool
                     }
                 }                  
 
-                Console.WriteLine("Finished!");
+                Console.WriteLine($"Finished At {DateTime.Now}");
             }
         }
     }
