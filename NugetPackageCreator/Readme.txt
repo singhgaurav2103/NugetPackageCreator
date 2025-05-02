@@ -42,10 +42,20 @@ Each project is defined under the `DependencyConfiguration` array with the follo
 - `ReStoreSolution`: Specifies solutions to restore before building.
 - `RebuildSolution`: Specifies solutions to rebuild.
 
+## App.Config Keys
+
+The application also uses `App.Config` to store additional settings that are not part of the JSON configuration 
+and are required for the application to function correctly. Below are the keys and their purposes:
+
+- `LocalNugetName`: The API key used to publish packages to the NuGet repository.
+- `LocalNuGet`: The Path of the NuGet source where packages will be published.
+- `ProjectInitialPath`: This is the path of your working directory where all your projects are located.
+
 ## How to Use
 
 1. **Configure the Application**:
-   - Update the `DependencyConfiguration.json` file to match your project's structure and requirements.
+   - Update the 'App.Config - AppSettings' and `DependencyConfiguration.json` file to match your 
+   project's structure and requirements.
 
 2. **Run the Application**:
    - Execute the application to create NuGet packages, manage dependencies, and handle symbols.
@@ -56,4 +66,14 @@ Each project is defined under the `DependencyConfiguration` array with the follo
 ## Example Configuration
 
 Here is an example of a project configuration:
+{ "CurrentVersion": "1.0.0", "NugetSourceAlreadyExists": true, "UseForceSymbols": false,
+"DependencyConfiguration": [ { "TrailingPath": "src/ProjectA/ProjectA.csproj", "CreatePackage": true,
+"ID": "ProjectA", "DependentPackageIDs": ["ProjectB", "ProjectC"], "AddDependentNugetPackage": true,
+"SolutionTrailingPath": "solutions/ProjectA.sln", "AddSymbolsScriptToProject": false,
+"CreatePdbFile": true }, { "TrailingPath": "src/ProjectB/ProjectB.csproj", "CreatePackage": true, 
+"ID": "ProjectB", "DependentPackageIDs": [], "AddDependentNugetPackage": false, 
+"SolutionTrailingPath": "solutions/ProjectB.sln", "AddSymbolsScriptToProject": true,
+"CreatePdbFile": true } ], "IgnoreAddingPackageToSolution": ["solutions/ProjectC.sln"],
+"IgnoreCreatingPackageToSolution": ["solutions/ProjectD.sln"], "ReStoreSolution": ["solutions/ProjectA.sln",
+"solutions/ProjectB.sln"], "RebuildSolution": ["solutions/ProjectA.sln"] }
 
