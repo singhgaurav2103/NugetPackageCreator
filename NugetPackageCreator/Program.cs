@@ -29,7 +29,7 @@ namespace NugetPackageCreatorTool
             var ProjectInitialPath = ConfigurationManager.AppSettings["ProjectInitialPath"];
             var outPutPath = ConfigurationManager.AppSettings["LocalNuGet"];
 
-             CleanAllSolution(dependencies, ProjectInitialPath);
+             CleanSolution(dependencies, ProjectInitialPath);
 
             //e.g -: Mark dependency CreatePackage to not create in list if user has asked.
             MarkPackageToNotCreate(dependencies);

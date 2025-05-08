@@ -61,7 +61,7 @@
         { "IQAS.Core.SharedUtilities": true }
       ],
       "AddDependentNugetPackage": true,
-      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "SolutionTrailingPath": "iqas-scan-engine\\src\\IQAS.Core.sln",
       "AddSymbolsScriptToProject": false,
       "CreatePdbFile": true
     },
@@ -73,7 +73,7 @@
         { "IQAS.Core.SharedUtilities": true }
       ],
       "AddDependentNugetPackage": true,
-      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "SolutionTrailingPath": "iqas-scan-engine\\src\\IQAS.Core.sln",
       "AddSymbolsScriptToProject": false,
       "CreatePdbFile": true
     },
@@ -85,7 +85,7 @@
         { "IQAS.Core.SharedUtilities": true }
       ],
       "AddDependentNugetPackage": true,
-      "SolutionTrailingPath": "iqas-core\\src\\IQAS.Core.sln",
+      "SolutionTrailingPath": "iqas-scan-engine\\src\\IQAS.Core.sln",
       "AddSymbolsScriptToProject": false,
       "CreatePdbFile": false
     },
@@ -454,22 +454,22 @@
 
   ],
   "IgnoreAddingPackageToSolution": [
-    { "iqas-core\\src\\IQAS.Core.sln": false },
+    { "iqas-core\\src\\IQAS.Core.sln": true },
     { "iqas-scan-engine\\src\\IQAS.Engine.sln": false },
     { "iqas-scanner\\src\\IQAS.Scanner.sln": false },
-    { "iqas-iqautoscan3\\IQAutoScan3.sln": false }
+    { "iqas-iqautoscan3\\IQAutoScan3.sln": true }
   ],
   "IgnoreCreatingPackageToSolution": [
-    { "iqas-core\\src\\IQAS.Core.sln": false },
+    { "iqas-core\\src\\IQAS.Core.sln": true },
     { "iqas-scan-engine\\src\\IQAS.Engine.sln": false },
     { "iqas-scanner\\src\\IQAS.Scanner.sln": false },
-    { "iqas-iqautoscan3\\IQAutoScan3.sln": false }
+    { "iqas-iqautoscan3\\IQAutoScan3.sln": true }
   ],
   "ReStoreSolution": [
     { "iqas-core\\src\\IQAS.Core.sln": false },
     { "iqas-scan-engine\\src\\IQAS.Engine.sln": false },
     { "iqas-scanner\\src\\IQAS.Scanner.sln": true },
-    { "iqas-iqautoscan3\\IQAutoScan3.sln": true }
+    { "iqas-iqautoscan3\\IQAutoScan3.sln": false }
   ],
   "RebuildSolution": [
     { "iqas-core\\src\\IQAS.Core.sln": false },

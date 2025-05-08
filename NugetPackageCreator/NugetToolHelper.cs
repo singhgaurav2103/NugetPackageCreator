@@ -14,7 +14,7 @@ namespace NugetPackageCreatorTool
 {
     internal partial class NugePackageTool
     {
-        private static void CleanAllSolution(Dependencies dependencies, string ProjectInitialPath)
+        private static void CleanSolution(Dependencies dependencies, string ProjectInitialPath)
         {
             var groupedBySolution = dependencies.DependencyConfiguration
                 .GroupBy(dep => dep.SolutionTrailingPath)
@@ -441,6 +441,10 @@ namespace NugetPackageCreatorTool
                     retries++;
                     Console.WriteLine($"File access failed. Retrying {retries}/{maxRetries}...");
                     Thread.Sleep(delayMilliseconds);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Failed to update project with exception: {ex.ToString()}");
                 }
             }
         }
