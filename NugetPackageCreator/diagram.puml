@@ -1,8 +1,0 @@
-﻿@startuml
-class User {
-    +id: int
-    +name: string
-    +login(): void
-    +logout(): void
-}
-@enduml

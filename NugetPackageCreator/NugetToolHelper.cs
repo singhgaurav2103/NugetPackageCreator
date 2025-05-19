@@ -6,13 +6,15 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace NugetPackageCreatorTool
 {
-    internal partial class NugePackageTool
+    internal partial class NuGetPackageTool
     {
         private static void CleanSolution(Dependencies dependencies, string ProjectInitialPath)
         {
@@ -167,19 +169,17 @@ namespace NugetPackageCreatorTool
             Console.WriteLine("Rebuild completed.");
         }
 
-        static string PointToLatestVersion(string projectPath, string packageName)
+        static string PointToLatestVersionIfItIsOriganlCSPROJ(string projectPath, string packageName)
         {
             string localNuGetRepo = ConfigurationManager.AppSettings["LocalNuGet"];
             if (!File.Exists(projectPath))
             {
-                Console.WriteLine($"Error: The specified project file does not exist {projectPath}");
-                return null;
+                throw new Exception($"Error: The specified project file does not exist {projectPath}");
             }
 
             if (!Directory.Exists(localNuGetRepo))
             {
-                Console.WriteLine("Error: The specified local NuGet repository does not exist.");
-                return null;
+                throw new Exception("Error: The specified local NuGet repository does not exist.");
             }
 
             try
@@ -188,17 +188,16 @@ namespace NugetPackageCreatorTool
 
                 //That means no updated package is in local nuget package manager
                 if (string.IsNullOrEmpty(latestVersion))
-                    return null;
+                    return latestVersion;
                 Console.WriteLine($"Latest version of {packageName} in local repository: {latestVersion}");
 
-                UpdateProjectFile(projectPath, packageName, latestVersion);
+                string originalVersion = UpdateProjectFileAndReturnOriginalVersionOfAddedPackage(projectPath, packageName, latestVersion);
                 Console.WriteLine($"{packageName} updated to version {latestVersion} in {projectPath}");
-                return latestVersion;
+                return originalVersion;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return null;
+                throw new Exception($"An error occurred: {ex.Message}");
             }
         }
         static string GetLatestLocalNuGetVersion(string localNuGetRepo, string packageName)
@@ -238,85 +237,148 @@ namespace NugetPackageCreatorTool
 
             return latestPackage.ToString();
         }
-        static void UpdateProjectFile(string projectPath, string packageName, string latestVersion)
+
+        static string UpdateProjectFileAndReturnOriginalVersionOfAddedPackage(string projectPath, string packageName, string latestVersion)
         {
-            if (projectPath.EndsWith(".csproj"))
+            string originalVersion = string.Empty;
+            if (projectPath.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase))
             {
                 RetryFileAccess(() =>
                 {
-                    XDocument projectFile = XDocument.Load(projectPath);
+                    string content;
+                    Encoding encoding;
+                    bool hasUtf8Bom;
+                    (content, encoding, hasUtf8Bom) = ReadFileWithEncodingAndBom(projectPath);
+                    string originalContent = content;
 
-                    //For Normal csproj Files.
-                    var packageReferenceWithInclude = projectFile.Descendants("PackageReference")
-                                                      .FirstOrDefault(p => p.Attribute("Include")?.Value == packageName);
-                    //For Web based csproj files.
-                    var packageReference = projectFile.Descendants()
-                    .Where(x => x.Name.LocalName == "PackageReference")
-                    .FirstOrDefault(p => p.Attribute("Include")?.Value == packageName);
+                    // Match <PackageReference Include="..." ...>
+                    string inlinePattern = $@"<PackageReference\s+[^>]*Include\s*=\s*""{Regex.Escape(packageName)}""[^>]*?>";
+                    Match match = Regex.Matches(content, inlinePattern, RegexOptions.IgnoreCase)
+                                       .Cast<Match>()
+                                       .FirstOrDefault(m => Regex.IsMatch(m.Value, @"\bversion\s*=", RegexOptions.IgnoreCase));
 
-
-                    if (packageReferenceWithInclude != null)
+                    if (match != null)
                     {
-                        packageReferenceWithInclude.SetAttributeValue("Version", latestVersion);
-                        projectFile.Save(projectPath);
-                    }
-                    else if (packageReference != null)
-                    {
-                        var versionElement = packageReference.Elements()
-                        .FirstOrDefault(e => e.Name.LocalName == "Version");
+                        string currentVersion = Regex.Match(match.Value, @"version\s*=\s*""([^""]+)""", RegexOptions.IgnoreCase).Groups[1].Value;
+                        originalVersion = currentVersion;
 
-                        if (versionElement != null)
-                        {
-                            // Update the existing Version element
-                            versionElement.Value = latestVersion;
-                            projectFile.Save(projectPath);
-                        }
+                        string updatedTag = Regex.Replace(match.Value,
+                            @"(version\s*=\s*"")[^""]+(""*)",
+                            m => $"{m.Groups[1].Value}{latestVersion}{m.Groups[2].Value}",
+                            RegexOptions.IgnoreCase);
+
+                        content = content.Replace(match.Value, updatedTag);
                     }
                     else
                     {
-                        Console.WriteLine($"Package {packageName} not found in {projectPath}. Adding package reference.");
-                        // If not found, you may want to add the package reference explicitly.
-                        var itemGroup = projectFile.Descendants("ItemGroup").FirstOrDefault();
-                        if (itemGroup != null)
+                        // Look for block with <Version> tag inside
+                        string blockPattern = $@"<PackageReference\s+[^>]*Include\s*=\s*""{Regex.Escape(packageName)}""[^>]*>.*?</PackageReference>";
+                        match = Regex.Matches(content, blockPattern, RegexOptions.Singleline | RegexOptions.IgnoreCase)
+                                     .Cast<Match>()
+                                     .FirstOrDefault(m => Regex.IsMatch(m.Value, @"<version>.*?</version>", RegexOptions.IgnoreCase | RegexOptions.Singleline));
+
+                        if (match != null)
                         {
-                            itemGroup.Add(new XElement("PackageReference",
-                                new XAttribute("Include", packageName),
-                                new XAttribute("Version", latestVersion)
-                            ));
-                            projectFile.Save(projectPath);
+                            string currentVersion = Regex.Match(match.Value, @"<version>(.*?)</version>", RegexOptions.IgnoreCase | RegexOptions.Singleline).Groups[1].Value;
+                            originalVersion = currentVersion;
+
+                            string updatedTag = Regex.Replace(match.Value,
+                                @"(<)(/?)(version)(>|\s[^>]*>|\s*>)([^<]*)(</)(version)(>)",
+                                m => $"{m.Groups[1].Value}{m.Groups[2].Value}{m.Groups[3].Value}{m.Groups[4].Value}{latestVersion}{m.Groups[6].Value}{m.Groups[7].Value}{m.Groups[8].Value}",
+                                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+                            content = content.Replace(match.Value, updatedTag);
                         }
+                        else
+                        {
+                            Console.WriteLine($"Package {packageName} not found in {projectPath}. Adding package reference.");
+
+                            string insertPattern = @"<ItemGroup[^>]*>";
+                            Match itemGroupMatch = Regex.Match(content, insertPattern, RegexOptions.IgnoreCase);
+                            if (itemGroupMatch.Success)
+                            {
+                                string newReference = $@"  <PackageReference Include=""{packageName}"" Version=""{latestVersion}"" />";
+                                int insertPos = content.IndexOf(itemGroupMatch.Value) + itemGroupMatch.Value.Length;
+                                content = content.Insert(insertPos, "\n" + newReference);
+                            }
+                        }
+                    }
+
+                    if (content != originalContent)
+                    {
+                        var finalEncoding = encoding is UTF8Encoding ? new UTF8Encoding(encoderShouldEmitUTF8Identifier: hasUtf8Bom) : encoding;
+                        File.WriteAllText(projectPath, content, finalEncoding);
                     }
                 });
             }
-            else if (projectPath.EndsWith("packages.config"))
+            else if (projectPath.EndsWith("packages.config", StringComparison.OrdinalIgnoreCase))
             {
                 RetryFileAccess(() =>
                 {
-                    XDocument configFile = XDocument.Load(projectPath);
+                    string content;
+                    Encoding encoding;
+                    bool hasUtf8Bom;
+                    (content, encoding, hasUtf8Bom) = ReadFileWithEncodingAndBom(projectPath);
+                    string originalContent = content;
 
-                    var packageElement = configFile.Descendants("package")
-                                                   .FirstOrDefault(p => p.Attribute("id")?.Value == packageName);
-
-                    if (packageElement != null)
+                    string pattern = $@"<package\s+[^>]*id\s*=\s*""{Regex.Escape(packageName)}""[^>]*>";
+                    Match match = Regex.Match(content, pattern, RegexOptions.IgnoreCase);
+                    if (match.Success)
                     {
-                        packageElement.SetAttributeValue("version", latestVersion);
-                        configFile.Save(projectPath);
+                        string currentVersion = Regex.Match(match.Value, @"version\s*=\s*""([^""]+)""", RegexOptions.IgnoreCase).Groups[1].Value;
+                        originalVersion = currentVersion;
+
+                        string updated = Regex.Replace(match.Value,
+                            @"(version\s*=\s*"")[^""]+(""*)",
+                            m => $"{m.Groups[1].Value}{latestVersion}{m.Groups[2].Value}",
+                            RegexOptions.IgnoreCase);
+
+                        content = content.Replace(match.Value, updated);
                     }
                     else
                     {
                         Console.WriteLine($"Package {packageName} not found in {projectPath}. Adding package reference.");
-                        // If not found, you may want to add the package reference explicitly.
-                        configFile.Root.Add(new XElement("package",
-                            new XAttribute("id", packageName),
-                            new XAttribute("version", latestVersion)
-                        ));
-                        configFile.Save(projectPath);
+                        string insert = $@"  <package id=""{packageName}"" version=""{latestVersion}"" />";
+                        int insertIndex = content.IndexOf("</packages>", StringComparison.OrdinalIgnoreCase);
+                        if (insertIndex != -1)
+                        {
+                            content = content.Insert(insertIndex, insert + "\n");
+                        }
+                    }
+
+                    if (content != originalContent)
+                    {
+                        var finalEncoding = encoding is UTF8Encoding ? new UTF8Encoding(encoderShouldEmitUTF8Identifier: hasUtf8Bom) : encoding;
+                        File.WriteAllText(projectPath, content, finalEncoding);
                     }
                 });
             }
             else
             {
                 throw new NotSupportedException("Unsupported project file type.");
+            }
+
+            return originalVersion;
+        }
+
+
+        /// <summary>
+        /// Reads file content and returns a tuple of content and its detected encoding.
+        /// </summary>
+        static (string Content, Encoding Encoding, bool HasUtf8Bom) ReadFileWithEncodingAndBom(string path)
+        {
+            byte[] bom = new byte[3];
+            using (var fileStream = File.OpenRead(path))
+            {
+                fileStream.Read(bom, 0, 3);
+            }
+
+            bool hasBom = bom[0] == 0xEF && bom[1] == 0xBB && bom[2] == 0xBF;
+
+            using (var reader = new StreamReader(path, detectEncodingFromByteOrderMarks: true))
+            {
+                string content = reader.ReadToEnd();
+                return (content, reader.CurrentEncoding, hasBom);
             }
         }
         static void ExtractPdbFromSymbolsNupkg(string symbolsNupkgPath, string outputDirectory)
@@ -352,8 +414,7 @@ namespace NugetPackageCreatorTool
                 }
             }
         }
-        static void CheckAndCopyPdbFilesScriptAddInCsProj(string projectPath,
-            string pdbSourcePath)
+        static void CheckAndCopyPdbFilesScriptAddInCsProj(string projectPath, string pdbSourcePath)
         {
             if (!Directory.Exists(pdbSourcePath))
             {
@@ -363,9 +424,23 @@ namespace NugetPackageCreatorTool
 
             RetryFileAccess(() =>
             {
+                // Step 1: Read content with encoding and BOM info
+                string content;
+                Encoding encoding;
+                bool hasUtf8Bom;
+                (content, encoding, hasUtf8Bom) = ReadFileWithEncodingAndBom(projectPath);
+                bool hasXmlDeclaration = content.TrimStart().StartsWith("<?xml", StringComparison.OrdinalIgnoreCase);
+
+                // Step 2: Load and parse XML with whitespace preserved
                 string escapedPath = pdbSourcePath.Replace("/", "\\").Replace(@"\", @"\\");
                 string wildcardPath = $@"{escapedPath}\\**\\*.pdb";
-                XDocument projectFile = XDocument.Load(projectPath);
+
+                XDocument projectFile;
+                using (var reader = new StringReader(content))
+                {
+                    projectFile = XDocument.Load(reader, LoadOptions.PreserveWhitespace);
+                }
+
                 var ns = projectFile.Root.Name.Namespace;
 
                 // --- Add target to copy PDB files after build ---
@@ -396,10 +471,10 @@ namespace NugetPackageCreatorTool
                 {
                     Console.WriteLine("Target 'CopyPdbFilesFromSymbols' already exists in project.");
                 }
+
                 // --- Add target to clean PDB files before build ---
                 var cleanTarget = projectFile.Descendants()
                     .FirstOrDefault(e => e.Name.LocalName == "Target" && e.Attribute("Name")?.Value == "CleanPdbFilesBeforeBuild");
-
                 if (cleanTarget == null)
                 {
                     var cleanElement = new XElement(ns + "Target",
@@ -423,9 +498,32 @@ namespace NugetPackageCreatorTool
                     Console.WriteLine("Target 'CleanPdbFilesBeforeBuild' already exists in project.");
                 }
 
-                projectFile.Save(projectPath);
+                Encoding encodingToUse;
+                if (encoding is UTF8Encoding)
+                {
+                    encodingToUse = new UTF8Encoding(encoderShouldEmitUTF8Identifier: hasUtf8Bom);
+                }
+                else
+                {
+                    encodingToUse = encoding;
+                }
+                // Step 3: Save using original encoding and declaration presence
+                var xmlWriterSettings = new XmlWriterSettings
+                {
+                    OmitXmlDeclaration = !hasXmlDeclaration,
+                    Encoding = encodingToUse,
+                    Indent = true
+                };
+
+                using (var stream = new StreamWriter(projectPath, false, xmlWriterSettings.Encoding))
+                using (var writer = XmlWriter.Create(stream, xmlWriterSettings))
+                {
+                    projectFile.Save(writer);
+                }
             });
         }
+
+
         static void RetryFileAccess(Action fileAccessAction, int maxRetries = 5, int delayMilliseconds = 500)
         {
             int retries = 0;
@@ -448,7 +546,7 @@ namespace NugetPackageCreatorTool
                 }
             }
         }
-        static void RestoreProject(string projectPath, string version = null)
+        static void RestoreProject(string projectPath)
         {
             // Restore the project
             string arguments = $"restore {projectPath} --no-cache --force";

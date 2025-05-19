@@ -61,7 +61,7 @@
         { "IQAS.Core.SharedUtilities": true }
       ],
       "AddDependentNugetPackage": true,
-      "SolutionTrailingPath": "iqas-scan-engine\\src\\IQAS.Core.sln",
+      "SolutionTrailingPath": "iqas-scan-engine\\src\\IQAS.Engine.sln",
       "AddSymbolsScriptToProject": false,
       "CreatePdbFile": true
     },
@@ -73,7 +73,7 @@
         { "IQAS.Core.SharedUtilities": true }
       ],
       "AddDependentNugetPackage": true,
-      "SolutionTrailingPath": "iqas-scan-engine\\src\\IQAS.Core.sln",
+      "SolutionTrailingPath": "iqas-scan-engine\\src\\IQAS.Engine.sln",
       "AddSymbolsScriptToProject": false,
       "CreatePdbFile": true
     },
@@ -85,7 +85,7 @@
         { "IQAS.Core.SharedUtilities": true }
       ],
       "AddDependentNugetPackage": true,
-      "SolutionTrailingPath": "iqas-scan-engine\\src\\IQAS.Core.sln",
+      "SolutionTrailingPath": "iqas-scan-engine\\src\\IQAS.Engine.sln",
       "AddSymbolsScriptToProject": false,
       "CreatePdbFile": false
     },
@@ -95,8 +95,7 @@
       "ID": "IQAS.DevOps",
       "DependentPackageIDs": [
         { "IQAS.Core.SharedUtilities": true },
-        { "IQAS.Scanner.Report": true },
-        { "IQAS.Scanner.ScanListSourceCollection": true }
+        { "IQAS.Scanner.Report": false }
       ],
       "AddDependentNugetPackage": true,
       "SolutionTrailingPath": "iqas-scanner\\src\\IQAS.Scanner.sln",
@@ -454,22 +453,22 @@
 
   ],
   "IgnoreAddingPackageToSolution": [
-    { "iqas-core\\src\\IQAS.Core.sln": true },
+    { "iqas-core\\src\\IQAS.Core.sln": false },
     { "iqas-scan-engine\\src\\IQAS.Engine.sln": false },
     { "iqas-scanner\\src\\IQAS.Scanner.sln": false },
-    { "iqas-iqautoscan3\\IQAutoScan3.sln": true }
+    { "iqas-iqautoscan3\\IQAutoScan3.sln": false }
   ],
   "IgnoreCreatingPackageToSolution": [
-    { "iqas-core\\src\\IQAS.Core.sln": true },
+    { "iqas-core\\src\\IQAS.Core.sln": false },
     { "iqas-scan-engine\\src\\IQAS.Engine.sln": false },
     { "iqas-scanner\\src\\IQAS.Scanner.sln": false },
-    { "iqas-iqautoscan3\\IQAutoScan3.sln": true }
+    { "iqas-iqautoscan3\\IQAutoScan3.sln": false }
   ],
   "ReStoreSolution": [
     { "iqas-core\\src\\IQAS.Core.sln": false },
     { "iqas-scan-engine\\src\\IQAS.Engine.sln": false },
     { "iqas-scanner\\src\\IQAS.Scanner.sln": true },
-    { "iqas-iqautoscan3\\IQAutoScan3.sln": false }
+    { "iqas-iqautoscan3\\IQAutoScan3.sln": true }
   ],
   "RebuildSolution": [
     { "iqas-core\\src\\IQAS.Core.sln": false },

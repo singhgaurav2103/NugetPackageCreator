@@ -163,8 +163,11 @@
   <ItemGroup>
     <Compile Include="DependencyConfiguration.cs" />
     <Compile Include="NugetToolHelper.cs" />
+    <Compile Include="PackageMetadataManager.cs" />
+    <Compile Include="PackageRefrencing.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestoreOriginalCSPROJFiles.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DependencyConfiguration.json">
@@ -172,7 +175,6 @@
     </Content>
     <Content Include="Readme.txt" />
     <None Include="App.config" />
-    <None Include="diagram.puml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
